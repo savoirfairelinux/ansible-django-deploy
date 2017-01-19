@@ -1,0 +1,41 @@
+# Root path of the django project
+django_path: "/opt/{{ django_name }}"
+
+# Path of the virtualenv where we install python dependencies
+django_env: "{{ django_path }}/env"
+# Path where the source of the project is placed.
+django_project_path: "{{ django_path }}/project"
+
+# python executable name. re-used in other variables below
+django_python2exec: python2.7
+django_python3exec: python3.4
+django_pythonexec: "{{ django_ispython3 | ternary(django_python3exec, django_python2exec) }}"
+# Path for the site-packages folder inside the virtualenv (you normally don't have to change this
+# unless it's the wrong path). This is where we go place the "local_settings.py" file.
+django_sitepackages_path: "{{ django_env }}/lib/{{ django_pythonexec }}/site-packages"
+
+# Path for STATIC_ROOT
+django_static_path: "{{ django_path }}/static"
+# Path for MEDIA_ROOT
+django_media_path: "{{ django_path }}/media"
+
+# Path to a requirements file. This is what will be installed inside our virtualenv.
+django_requirements_file: "{{ django_project_path }}/requirements.txt"
+
+# Owner of django_path. Most commands in this role are ran under this user.
+# Will be created if it doesn't exist.
+django_user: "{{ django_name }}"
+
+# Whether we run django in debug mode.
+django_debug: no
+
+# Sets the "touch-reload" uwsgi option. This path, whenever it's touched, will cause the WSGI server
+# process to reload itself so that changed python code is properly reloaded.
+# The default path is the project directory because its mtime is generally updated each time we
+# checkout a new commit, which is the appropriate time for a reload.
+# You can set to "" to disable touch-reload.
+django_touch_reload_path: "{{ django_project_path }}"
+
+# Group owning the static/media directories. This can be needed to allow a specific server (eg. nginx)
+# to access to these directories.
+django_files_group: "www-data"
