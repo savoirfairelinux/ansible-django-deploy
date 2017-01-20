@@ -3,7 +3,8 @@
 *Provisions a Django project, SFL style.*
 
 Running this roles results in the creation of a fully functional Django instance, isolated in a
-Python virtualenv.
+Python virtualenv. The operations provided by this role (requirements installation, migrations execution, ...)
+can be performed in non-privileged mode.
 
 ## Requirements
 
