@@ -1,3 +1,6 @@
+# Name used as a default value in most variables below
+django_name: django
+
 # Root path of the django project
 django_path: "/opt/{{ django_name }}"
 
