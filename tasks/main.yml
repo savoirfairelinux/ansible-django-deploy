@@ -1,5 +1,5 @@
 - block:
   - include: django.yml
 
-  become: yes
+  become: "{{ ansible_user != django_user }}"
   become_user: "{{ django_user }}"
