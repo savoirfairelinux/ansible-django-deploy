@@ -1,0 +1,11 @@
+- name: Fix static/media paths permissions
+  file:
+      path: "{{ item }}"
+      state: directory
+      group: "{{ django_files_group }}"
+      recurse: yes
+      mode: "u=rwX,g=rX,o=" # X != x, remember
+  changed_when: false
+  with_items:
+    - "{{ django_static_path }}"
+    - "{{ django_media_path }}"

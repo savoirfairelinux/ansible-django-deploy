@@ -1,0 +1,6 @@
+- name: Create .env.json
+  template: src=.env.json.j2 dest={{ django_path }}/.env.json
+  register: env_json_config
+
+- include: trigger_reload.yml
+  when: "env_json_config|changed"

@@ -1,3 +1,6 @@
+# GENERAL
+# ------------------------------------------------------------------------------
+
 # Name used as a default value in most variables below
 django_name: django
 
@@ -8,6 +11,8 @@ django_path: "/opt/{{ django_name }}"
 django_env: "{{ django_path }}/env"
 # Path where the source of the project is placed.
 django_project_path: "{{ django_path }}/project"
+# Path, inside the project's source, where "manage.py" lives.
+django_src_path: "{{ django_project_path }}/src"
 
 # python executable name. re-used in other variables below
 django_python2exec: python2.7
@@ -29,9 +34,6 @@ django_requirements_file: "{{ django_project_path }}/requirements.txt"
 # Will be created if it doesn't exist.
 django_user: "{{ django_name }}"
 
-# Whether we run django in debug mode.
-django_debug: no
-
 # Sets the "touch-reload" uwsgi option. This path, whenever it's touched, will cause the WSGI server
 # process to reload itself so that changed python code is properly reloaded.
 # The default path is the project directory because its mtime is generally updated each time we
@@ -42,3 +44,73 @@ django_touch_reload_path: "{{ django_project_path }}"
 # Group owning the static/media directories. This can be needed to allow a specific server (eg. nginx)
 # to access to these directories.
 django_files_group: "www-data"
+
+# django_env_variables can be used to define some environment variables that should be set before
+# running the Django application. For example:
+#
+# django_env_variables:
+#   - name: DJANGO_SETTINGS_MODULE
+#     value: myproject.settings
+#
+django_env_variables: []
+
+
+# DATABASE CONFIGURATION
+# ------------------------------------------------------------------------------
+
+# Type of database to install. Choices: postgres, mariadb.
+django_dbtype: postgres
+
+# User to use for db connection.
+django_dbuser: "{{ django_user }}"
+
+# DB name to use.
+django_dbname: "{{ django_name }}"
+
+# password to use for db connection.
+django_dbpass: whatever
+
+
+# DJANGO SETTINGS CONFIGURATION
+# ------------------------------------------------------------------------------
+
+# Defines the type of settings used by the Django project.
+# The allowed values are 'localsettings', 'jsonsettings' or 'none'.
+#
+# - 'localsettings' results in the creation of a local_settings.py file that should be imported in
+#    the project's main settings.py file. Although this is not the preferred pattern, it remains the
+#    default behaviour (for now...).
+# - 'jsonsettings' results in the creation of an .env.json file containing properties that are
+#    injected into the project's setting module using a syntax like "get_envsetting('SECRET_KEY')".
+#    This has the advantage over the previous technique that the environment-specific settings are
+#    explicitely defined into the settings module.
+# - 'none' just do nothing...
+django_settings_pattern: 'localsettings'
+
+# Whether we run django in debug mode.
+django_debug: no
+# Ends up in SECRET_KEY setting.
+django_secret_key: whatever
+# Value of the ENGINE param in Django settings' DATABASES dictionary.
+django_dbengine_name: "django.db.backends.{{ (django_dbtype == 'postgres') | ternary('postgresql_psycopg2', 'mysql') }}"
+# Domain names under which the project is served. Ends up in ALLOWED_HOSTS.
+django_domain_name: "{{ django_name }}.vagrant.dev"
+django_extra_domain_names: []
+# Arbitrary python code to add to local_settings.py. Will be appended as-is to the end of the file.
+django_env_settings_extra: ''
+
+# The django_jsonsettings_properties is only used when django_settings_pattern is set to
+# "jsonsettings". It must be a dictionary of key/values that should be injected into the project's
+# settings module using the "get_envsetting('SECRET_KEY')" pattern.
+django_jsonsettings_properties: {
+    SECRET_KEY: "{{ django_secret_key }}",
+    ADMIN_URL: admin/,
+    DB_ENGINE: "{{ django_dbengine_name }}",
+    DB_NAME: "{{ django_dbname }}",
+    DB_USER: "{{ django_dbuser }}",
+    DB_PASSWORD: "{{ django_dbpass }}",
+    DB_HOST: "",
+    DB_PORT: "",
+    DB_OPTIONS: {},
+    ALLOWED_HOSTS: "['{{ django_domain_name }}', ] + {{ django_extra_domain_names|default([]) }}"
+}

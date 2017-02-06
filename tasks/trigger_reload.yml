@@ -1,0 +1,5 @@
+- name: Trigger a reload
+  file:
+    path: "{{ django_touch_reload_path }}"
+    state: touch
+  when: "django_touch_reload_path != ''"
