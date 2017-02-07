@@ -102,15 +102,14 @@ django_env_settings_extra: ''
 # The django_jsonsettings_properties is only used when django_settings_pattern is set to
 # "jsonsettings". It must be a dictionary of key/values that should be injected into the project's
 # settings module using the "get_envsetting('SECRET_KEY')" pattern.
-django_jsonsettings_properties: {
-    SECRET_KEY: "{{ django_secret_key }}",
-    ADMIN_URL: admin/,
-    DB_ENGINE: "{{ django_dbengine_name }}",
-    DB_NAME: "{{ django_dbname }}",
-    DB_USER: "{{ django_dbuser }}",
-    DB_PASSWORD: "{{ django_dbpass }}",
-    DB_HOST: "",
-    DB_PORT: "",
-    DB_OPTIONS: {},
-    ALLOWED_HOSTS: "['{{ django_domain_name }}', ] + {{ django_extra_domain_names|default([]) }}"
-}
+django_jsonsettings_properties:
+  SECRET_KEY: "{{ django_secret_key }}"
+  ADMIN_URL: admin/
+  DB_ENGINE: "{{ django_dbengine_name }}"
+  DB_NAME: "{{ django_dbname }}"
+  DB_USER: "{{ django_dbuser }}"
+  DB_PASSWORD: "{{ django_dbpass }}"
+  DB_HOST: ""
+  DB_PORT: ""
+  DB_OPTIONS: {}
+  ALLOWED_HOSTS: "['{{ django_domain_name }}', ] + {{ django_extra_domain_names|default([]) }}"
