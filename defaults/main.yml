@@ -52,7 +52,7 @@ django_files_group: "www-data"
 #   - name: DJANGO_SETTINGS_MODULE
 #     value: myproject.settings
 #
-django_env_variables: []
+django_env_variables: {}
 
 
 # DATABASE CONFIGURATION

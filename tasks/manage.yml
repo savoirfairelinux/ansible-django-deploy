@@ -1,8 +1,4 @@
 - block:
-  - name: Export Django project's required environment variables
-    shell: "export {{ item.name }}={{ item.value }}"
-    with_items: "{{ django_env_variables }}"
-
   - name: Migrate
     django_manage:
       app_path: "{{ django_src_path }}"
@@ -30,3 +26,5 @@
       link: "{{ django_debug }}"
       virtualenv: "{{ django_env }}"
     changed_when: false
+
+  environment: "{{ django_env_variables }}"
