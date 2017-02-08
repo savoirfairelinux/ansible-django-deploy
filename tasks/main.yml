@@ -4,7 +4,7 @@
   - assert:
       that:
         - "django_settings_pattern in ['localsettings', 'jsonsettings', 'none']"
-      msg: "'my_param' must be between 0 and 100"
+      msg: "django_settings_pattern must be either 'localsettings', 'jsonsettings' or 'none'"
 
   - include: config_localsettings.yml
     when: "django_settings_pattern == 'localsettings'"
