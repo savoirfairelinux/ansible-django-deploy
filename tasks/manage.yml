@@ -1,0 +1,30 @@
+- block:
+  - name: Migrate
+    django_manage:
+      app_path: "{{ django_src_path }}"
+      pythonpath: "{{ django_src_path }}"
+      command: migrate
+      virtualenv: "{{ django_env }}"
+
+  - name: Load fixtures
+    django_manage:
+      app_path: "{{ django_src_path }}"
+      pythonpath: "{{ django_src_path }}"
+      command: "loaddata {{ item }}"
+      virtualenv: "{{ django_env }}"
+    with_items: "{{ django_fixtures_to_load }}"
+
+  - name: Collect static
+    django_manage:
+      app_path: "{{ django_src_path }}"
+      pythonpath: "{{ django_src_path }}"
+      command: collectstatic
+      # When we're in production, collected static files have a different access model then the
+      # rest of the project, so we don't want to symlink it. However, when we're in development
+      # mode, we prefer to be able to quickly see the result of our static files, so we want to
+      # symlink it.
+      link: "{{ django_debug }}"
+      virtualenv: "{{ django_env }}"
+    changed_when: false
+
+  environment: "{{ django_env_variables }}"

@@ -1,0 +1,12 @@
+- name: Create local_settings.py
+  template: src=local_settings.py.j2 dest={{ django_path }}/local_settings.py
+  register: local_settings_config
+
+- name: Symlink local_settings.py into our venv's site-packages
+  file:
+    path: "{{ django_sitepackages_path }}/local_settings.py"
+    state: link
+    src: "{{ django_path }}/local_settings.py"
+
+- include: trigger_reload.yml
+  when: "local_settings_config|changed"

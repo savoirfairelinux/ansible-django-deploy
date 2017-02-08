@@ -1,5 +1,20 @@
 - block:
-  - include: django.yml
+  - include: virtualenv.yml
+
+  - assert:
+      that:
+        - "django_settings_pattern in ['localsettings', 'jsonsettings', 'none']"
+      msg: "django_settings_pattern must be either 'localsettings', 'jsonsettings' or 'none'"
+
+  - include: config_localsettings.yml
+    when: "django_settings_pattern == 'localsettings'"
+
+  - include: config_jsonsettings.yml
+    when: "django_settings_pattern == 'jsonsettings'"
+
+  - include: manage.yml
+
+  - include: fix_static_media_permissions.yml
 
   become: "{{ ansible_user != django_user }}"
   become_user: "{{ django_user }}"
