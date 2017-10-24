@@ -16,5 +16,6 @@
 
   - include: fix_static_media_permissions.yml
 
-  become: "{{ ansible_user != django_user }}"
+
+  become: "{{ ansible_user|default('root') != django_user }}"
   become_user: "{{ django_user }}"
