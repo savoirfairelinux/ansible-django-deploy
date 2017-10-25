@@ -6,6 +6,8 @@
       recurse: yes
       mode: "u=rwX,g=rX,o=" # X != x, remember
   changed_when: false
+  become: true
+  become_user: root
   with_items:
     - "{{ django_static_path }}"
     - "{{ django_media_path }}"
