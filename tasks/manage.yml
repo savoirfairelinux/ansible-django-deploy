@@ -36,5 +36,6 @@
   - name: Reload server
     service: "name={{ django_name }}-wsgi state=restarted"
     when: django_assets_script != ''
+    become: yes
 
   environment: "{{ django_env_variables }}"
