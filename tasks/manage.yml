@@ -35,7 +35,8 @@
 
   - name: Reload server
     service: "name={{ django_name }}-wsgi state=restarted"
-    when: django_assets_script != ''
     become: yes
+    become_user: "root"
+    when: django_assets_script != ''
 
   environment: "{{ django_env_variables }}"
