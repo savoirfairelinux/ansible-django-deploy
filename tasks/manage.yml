@@ -18,7 +18,7 @@
     shell: "{{ django_assets_script }}"
     become: yes
     become_user: "{{ django_user }}"
-    when: django_assets_script
+    when: django_assets_script != ''
 
   - name: Collect static
     django_manage:
@@ -35,6 +35,6 @@
 
   - name: Reload server
     service: "name={{ django_name }}-wsgi state=restarted"
-    when: django_assets_script
+    when: django_assets_script != ''
 
   environment: "{{ django_env_variables }}"
