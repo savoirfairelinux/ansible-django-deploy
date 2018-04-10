@@ -99,7 +99,7 @@ django_extra_domain_names: []
 # Arbitrary python code to add to local_settings.py. Will be appended as-is to the end of the file.
 django_env_settings_extra: ''
 
-django_run_gulp: false
+django_assets_script: ''
 
 # The django_jsonsettings_properties is only used when django_settings_pattern is set to
 # "jsonsettings". It must be a dictionary of key/values that should be injected into the project's

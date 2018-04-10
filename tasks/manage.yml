@@ -14,11 +14,11 @@
       virtualenv: "{{ django_env }}"
     with_items: "{{ django_fixtures_to_load }}"
 
-  - name: Run Gulp
-    shell: "{{ django_path }}/gulp.sh"
+  - name: Run assets generation script
+    shell: "{{ django_assets_script }}"
     become: yes
     become_user: "{{ django_user }}"
-    when: django_run_gulp
+    when: django_assets_script
 
   - name: Collect static
     django_manage:
@@ -35,6 +35,6 @@
 
   - name: Reload server
     service: "name={{ django_name }}-wsgi state=restarted"
-    when: django_run_gulp
+    when: django_assets_script
 
   environment: "{{ django_env_variables }}"
