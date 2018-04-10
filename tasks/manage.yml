@@ -14,6 +14,12 @@
       virtualenv: "{{ django_env }}"
     with_items: "{{ django_fixtures_to_load }}"
 
+  - Name: Run Gulp
+    shell: "{{ django_path }}/gulp.sh"
+    become: yes
+    become_user: "{{ django_user }}"
+    when: django_run_gulp
+
   - name: Collect static
     django_manage:
       app_path: "{{ django_src_path }}"
@@ -26,5 +32,9 @@
       link: "{{ django_debug }}"
       virtualenv: "{{ django_env }}"
     changed_when: false
+
+  - Name: Reload server
+    service: "name={{ django_name }}-wsgi state=restarted"
+    when: django_run_gulp
 
   environment: "{{ django_env_variables }}"
