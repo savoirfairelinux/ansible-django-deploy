@@ -5,4 +5,4 @@
   register: env_json_config
 
 - include: trigger_reload.yml
-  when: "env_json_config|changed"
+  when: "env_json_config.changed"
