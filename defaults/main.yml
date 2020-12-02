@@ -16,7 +16,7 @@ django_src_path: "{{ django_project_path }}/src"
 
 # python executable name. re-used in other variables below
 django_python2exec: python2.7
-django_python3exec: python3.5
+django_python3exec: python3.8
 django_pythonexec: "{{ django_ispython3 | ternary(django_python3exec, django_python2exec) }}"
 # Path for the site-packages folder inside the virtualenv (you normally don't have to change this
 # unless it's the wrong path). This is where we go place the "local_settings.py" file.
