@@ -19,5 +19,5 @@
   register: pip_install_result
   changed_when: "'Successfully installed' in pip_install_result.stdout"
 
-- include: trigger_reload.yml
+- include_tasks: trigger_reload.yml
   when: "pip_install_result.changed"

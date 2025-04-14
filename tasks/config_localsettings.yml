@@ -8,5 +8,5 @@
     state: link
     src: "{{ django_path }}/local_settings.py"
 
-- include: trigger_reload.yml
+- include_tasks: trigger_reload.yml
   when: "local_settings_config.changed"

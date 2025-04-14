@@ -1,20 +1,20 @@
 - block:
-  - include: virtualenv.yml
+  - include_tasks: virtualenv.yml
 
   - assert:
       that:
         - "django_settings_pattern in ['localsettings', 'jsonsettings', 'none']"
       msg: "django_settings_pattern must be either 'localsettings', 'jsonsettings' or 'none'"
 
-  - include: config_localsettings.yml
+  - include_tasks: config_localsettings.yml
     when: "django_settings_pattern == 'localsettings'"
 
-  - include: config_jsonsettings.yml
+  - include_tasks: config_jsonsettings.yml
     when: "django_settings_pattern == 'jsonsettings'"
 
-  - include: manage.yml
+  - include_tasks: manage.yml
 
-  - include: fix_static_media_permissions.yml
+  - include_tasks: fix_static_media_permissions.yml
 
 
   become: "{{ ansible_user|default('root') != django_user }}"
