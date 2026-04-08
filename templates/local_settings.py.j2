@@ -26,5 +26,10 @@ EXTRA_DOMAINS = [
 ALLOWED_HOSTS = [PROJECT_DOMAIN] + EXTRA_DOMAINS
 PROJECT_ENVPATH = '{{ django_env }}'
 
+{% if django_recaptcha_public_key or django_recaptcha_private_key %}
+RECAPTCHA_PUBLIC_KEY = '{{ django_recaptcha_public_key }}'
+RECAPTCHA_PRIVATE_KEY = '{{ django_recaptcha_private_key }}'
+{% endif %}
+
 {{ django_env_settings_extra }}
 

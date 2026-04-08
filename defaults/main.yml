@@ -101,6 +101,9 @@ django_env_settings_extra: ''
 
 django_assets_script: ''
 
+django_recaptcha_public_key: ''
+django_recaptcha_private_key: ''
+
 # The django_jsonsettings_properties is only used when django_settings_pattern is set to
 # "jsonsettings". It must be a dictionary of key/values that should be injected into the project's
 # settings module using the "get_envsetting('SECRET_KEY')" pattern.
